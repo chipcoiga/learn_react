@@ -29,7 +29,11 @@ class App extends Component {
     this.setState({persons: persons});
   }
 
-  changedNameHandler = (event) => {
+  changedNameHandler = (event, id) => {
+    const pesron = this.state.persons.findIndex(p => {
+      return p.id === id;
+    });
+
     this.setState({
       persons: [
         {name: event.target.value, age: 1228},
@@ -47,7 +51,7 @@ class App extends Component {
 
   render() {
     const style = {
-      backgroundColor: 'white',
+      backgroundColor: 'green',
       font: 'inherit',
       border: '1x solid blue',
       padding: '8px'
@@ -62,15 +66,27 @@ class App extends Component {
             click={() => this.deletePersonHandle(index)}
             name={person.name} 
             age={person.age} 
-            key={person.id} />
+            key={person.id} 
+            changed={(event) => this.changedNameHandler(event, person.id)} />
           })}
         </div>
       );
+
+      style.backgroundColor = 'red';
     }
 
+    const classese = [];
+
+    if(this.state.persons.length <=2){
+      classese.push('red');
+    }
+
+    if(this.state.persons.length <= 1) {
+      classese.push('bold');
+    }
     return (
       <div className="App">
-        <h1>Hi, I am loc </h1>
+        <h1 className={classese}>Hi, I am loc </h1>
         <button 
           style={style}
           onClick={this.togglePersonHandler}>Toggle Person</button>  
